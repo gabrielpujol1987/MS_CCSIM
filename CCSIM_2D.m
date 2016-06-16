@@ -15,7 +15,7 @@
 % -----------------------------------------------------------------------*/
 % 
 function [ C, error_location ] = CCSIM_2D(ti, hd, T, OL, CT, fc, prop, rad, cand, mrp, T_vibration, ms_level, real_numb)
-
+global timeTablePath prefix_timeTable;
 
 %% Input Parameters
 % - ti: Training image
@@ -251,6 +251,15 @@ for i = 1:real_numb
     disp(['********  CPU time for the grid size of ',num2str(size(hd,1)),'x',...
         num2str(size(hd,2)), ' is ', num2str(tEnd),...
         '  (s) ********'])
+	
+	
+	fileID = fopen(timeTablePath,'a');
+	%fprintf(fileID,'nSim,MultiScale,sizeX,sizeY,T,OL,Time(s)\n');
+	fprintf(fileID,[prefix_timeTable num2str(tEnd) '\n']);
+	fclose(fileID);
+	
+	
+
     
     subplot(1,2,1); imagesc(ti); axis equal tight xy; colormap gray
     subplot(1,2,2); imagesc(MS0); axis equal tight xy; colormap gray
