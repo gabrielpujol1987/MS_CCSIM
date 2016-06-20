@@ -17,6 +17,15 @@ function [Grid_Sim, LOC2] = CCSIM_2D_MS1(TI, hd, LOC1, T, OL, rad)
 sizeout = size(hd);
 Grid_Sim = zeros(sizeout);
 
+
+
+
+
+
+
+
+
+
 cntr = 0;
 a = numel(1:T-OL:sizeout(1)-T+1);
 b = numel(1:T-OL:sizeout(2)-T+1);
@@ -28,8 +37,11 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
   for j=[1:T-OL:sizeout(2)-T, sizeout(2)-T+1],
       
       cntr = cntr+1;
-      
-      hd_dev = hd(i:i+T-1,j:j+T-1);
+
+	  
+	  
+	  
+	  hd_dev = hd(i:i+T-1,j:j+T-1);
       hd_dev = reshape(hd_dev,1,size(hd_dev,1)*size(hd_dev,2));
       hd_indicator = sum(isfinite(hd_dev));
       hd_index = find(~isnan(hd_dev));
@@ -42,8 +54,7 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
       index_section = index1(selectrows, selectcols);      
             
 
-      if (i > 1) && (j > 1),
-          
+	  if (i > 1) && (j > 1),
           temp = ones([OL T]);
           CCtop = xcorr2(domain.^2, temp);
           temp = ones([T-OL OL]);
@@ -55,16 +66,13 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
           shared = Grid_Sim(i+OL:i+T-1,j:j+OL-1);
           CC2 = CCsidesmall - 2 * xcorr2(domain, shared) + sum(shared(:).^2);
           CC = CC + CC2(T:end-T+OL+1, OL:end-T+1);
-               
       
       elseif i > 1
-          
           temp = ones([OL T]);
           CCtop = xcorr2(domain.^2, temp);      
           
           shared = Grid_Sim(i:i+OL-1,j:j+T-1);
           CC = CCtop - 2 * xcorr2(domain, shared) + sum(shared(:).^2);
-
           CC = CC(OL:end-T+1,T:end-T+1);
 
     elseif j > 1
@@ -73,16 +81,15 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
         
           shared = Grid_Sim(i:i+T-1,j:j+OL-1);
           CC = CCside - 2 * xcorr2(domain, shared) + sum(shared(:).^2);
-      
           CC = CC(T:end-T+1,OL:end-T+1);        
-          
           
       else
           CC = zeros(size(domain));
           CC(end-T+1:end,:) = 1; 
           CC(:,end-T+1:end) = 1;
       end;
-      
+
+	  
       if hd_indicator==0 && (i||j)~=1
           [ibest, jbest] = find(CC == min(CC(:)));
           c = ceil(rand * length(ibest));
@@ -119,17 +126,3 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
       Grid_Sim(i:i+T-1,j:j+T-1) = combine_2D(Grid_Sim(i:i+T-1, j:j+T-1),target_final, M);
   end;
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

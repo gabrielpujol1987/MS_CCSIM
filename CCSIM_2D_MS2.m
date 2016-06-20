@@ -32,6 +32,7 @@ b = numel(1:T-OL:Grid_Sim(2)-T+1);
 LOC = NaN(a*b,2);
 
 
+
 for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
   for j=[1:T-OL:sizeout(2)-T, sizeout(2)-T+1],
       
@@ -51,21 +52,30 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
       
       dev_init = Grid_Sim(i:i+T-1, j:j+T-1);
 
-      if (i > 1) && (j > 1),
+
+	  
+	  if (i > 1) && (j > 1),
           shared = Grid_Sim(i:i+OL-1,j:j+T-1);
           CC = CCtop - 2 * xcorr2(TI2, shared) + sum(shared(:).^2);
           CC = CC(OL:end-T+1,T:end-T+1);
 
-          shared = Grid_Sim(i+OL:i+T-1,j:j+OL-1);
+      
+		  shared = Grid_Sim(i+OL:i+T-1,j:j+OL-1);
           CC2 = CCsidesmall - 2 * xcorr2(TI2, shared) + sum(shared(:).^2);
           CC = CC + CC2(T:end-T+OL+1, OL:end-T+1);
-    
-      elseif i > 1
+          
+	  
+	  	  
+	  
+	  elseif i > 1
           shared = Grid_Sim(i:i+OL-1,j:j+T-1);
           CC = CCtop - 2 * xcorr2(TI2, shared) + sum(shared(:).^2);
           CC = CC(OL:end-T+1,T:end-T+1);
 
-      elseif j > 1
+
+	  
+	  
+	  elseif j > 1
         shared = Grid_Sim(i:i+T-1,j:j+OL-1);
         CC = CCside - 2 * xcorr2(TI2, shared) + sum(shared(:).^2);
         CC = CC(T:end-T+1,OL:end-T+1);
@@ -74,7 +84,13 @@ for i=[1:T-OL:sizeout(1)-T, sizeout(1)-T+1],
           CC = rand(size(TI2,1)-T,size(TI2,2)-T);
       end;
       
-      if hd_indicator==0 && HD_indicator==0
+      
+	  
+	  
+	  
+	  
+	  
+	  if hd_indicator==0 && HD_indicator==0
           [~,loc] = sort(CC(:));
           [ibest, jbest] = ind2sub(size(CC),loc(1:cand,1));
           if fc~=0

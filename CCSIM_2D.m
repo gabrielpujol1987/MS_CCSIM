@@ -202,7 +202,7 @@ for i = 1:real_numb
     else
         [~, LOC2] = CCSIM_2D_MS2(ti2, hd2, T_new(i)/4, OL/4, CT, fc, prop, cand);
         [~, LOC1] = CCSIM_2D_MS1(ti1, hd1, LOC2, T_new(i)/2, OL/2, rad);
-        [MS0, ~] = CCSIM_2D_MS1(ti0, hd0, LOC1, T_new(i), OL, rad);
+        [MS0, ~]  = CCSIM_2D_MS1(ti0, hd0, LOC1, T_new(i), OL, rad);
     end;
     
     tEnd = toc(tStart);
@@ -253,11 +253,12 @@ for i = 1:real_numb
         '  (s) ********'])
 	
 	
-	fileID = fopen(timeTablePath,'a');
-	%fprintf(fileID,'nSim,MultiScale,sizeX,sizeY,T,OL,Time(s)\n');
-	fprintf(fileID,[prefix_timeTable num2str(tEnd) '\n']);
-	fclose(fileID);
-	
+	if ~isempty(timeTablePath)
+		fileID = fopen(timeTablePath,'a');
+		%fprintf(fileID,'nSim,MultiScale,sizeX,sizeY,T,OL,Time(s)\n');
+		fprintf(fileID,[prefix_timeTable num2str(tEnd) '\n']);
+		fclose(fileID);
+	end
 	
 
     
