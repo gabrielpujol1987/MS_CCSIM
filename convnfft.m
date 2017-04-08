@@ -163,7 +163,8 @@ if GPU
     clear B
 else
     % inplace product to save 1/3 of the memory
-    inplaceprod(A,B);
+%     inplaceprod(A,B);		% MATLAB says: "Undefined function or variable 'inplaceprod'"
+	A = A.*B;				% so I looked up this workaround, works fine.
 end
 
 % Back to the non-Fourier space

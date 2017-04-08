@@ -17,6 +17,7 @@
 
 function [ ti2 ] = ti_resize_3D(ti, newsize)
 
+newsize = floor(newsize);	% when called from CCSIM_3D with an odd image size, it blows up!
 ti2 = zeros(newsize(1), newsize(2), size(ti,3));
 
 for L = 1:size(ti,3)
