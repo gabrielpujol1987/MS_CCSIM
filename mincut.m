@@ -39,11 +39,28 @@ E(1:end,:) = X(1:end,:);
 %Starting with the second array, compute the path costs until the end
 for i=2:size(E,1),
     
-    E(i,1) = X(i,1) + min( E(i-1,1), E(i-1,2) );
-    for j=2:size(E,2)-1,
-        E(i,j) = X(i,j) + min( [E(i-1,j-1), E(i-1,j), E(i-1,j+1)] );
-    end;
-    E(i,end) = X(i,end) + min( E(i-1,end-1), E(i-1,end) );
+%   E(i,1) = X(i,1) + min( E(i-1,1), E(i-1,2) );
+%   for j=2:size(E,2)-1,
+%       E(i,j) = X(i,j) + min( [E(i-1,j-1), E(i-1,j), E(i-1,j+1)] );
+%   end;
+%   E(i,end) = X(i,end) + min( E(i-1,end-1), E(i-1,end) );
+	
+	
+	% Gabriel: correcting bug when OL=1		START
+	E(i,1) = X(i,1) + E(i-1,1); % min( E(i-1,1), E(i-1,2) );
+    
+    if size(E,2) > 1            
+    
+        for j=2:size(E,2)-1,
+            E(i,j) = X(i,j) + min( [E(i-1,j-1), E(i-1,j), E(i-1,j+1)] );
+        end;
+        E(i,end) = X(i,end) + min( E(i-1,end-1), E(i-1,end) );
+
+    else
+        E(i,end) = X(i,end) + E(i-1,end);
+    end                         
+	% Gabriel: correcting bug when OL=1		END
+
 end;
 
 %---------------------------------------------------------------------------------------------

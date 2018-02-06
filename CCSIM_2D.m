@@ -83,9 +83,9 @@ if ms_level >=3
 end;
        
 
-h = waitbar(0, sprintf('CCSIM is running ... %i realization(s)', real_numb), ...
-    'CreateCancelBtn', 'setappdata(gcbf,''canceling'',1)');
-setappdata(h,'canceling',0)
+% h = waitbar(0, sprintf('CCSIM is running ... %i realization(s)', real_numb), ...
+%     'CreateCancelBtn', 'setappdata(gcbf,''canceling'',1)');
+% setappdata(h,'canceling',0)
 
 R1 = 1:lag:real_numb;
 R2 = 0; R3 = 0; R4 = 0; R5 = 0; R6 = 0; R7 = 0; R8 = 0;
@@ -115,9 +115,9 @@ error_location = zeros(numel(find(~isnan(hd))),real_numb);
 
 for i = 1:real_numb
     
-    if getappdata(h,'canceling')
-        break
-    end    
+%     if getappdata(h,'canceling')
+%         break
+%     end    
     
 
     if any(R1==i)
@@ -246,7 +246,7 @@ for i = 1:real_numb
         disp(['** Mismatch HD: ',num2str(mis_hd),'% ***'])
     end;
 
-    waitbar(i / real_numb, h, sprintf('CCSIM is running...Please wait...%ith realization completed', i))
+%     waitbar(i / real_numb, h, sprintf('CCSIM is running...Please wait...%ith realization completed', i))
     
     disp(['********  CPU time for the grid size of ',num2str(size(hd,1)),'x',...
         num2str(size(hd,2)), ' is ', num2str(tEnd),...
@@ -255,18 +255,17 @@ for i = 1:real_numb
 	
 	if ~isempty(timeTablePath)
 		fileID = fopen(timeTablePath,'a');
-		%fprintf(fileID,'nSim,MultiScale,sizeX,sizeY,T,OL,Time(s)\n');
-		fprintf(fileID,[prefix_timeTable num2str(tEnd) '\n']);
+		fprintf(fileID,[num2str(tEnd) '\n']);
 		fclose(fileID);
 	end
 	
 
-    
-    subplot(1,2,1); imagesc(ti); axis equal tight xy; colormap gray
-    subplot(1,2,2); imagesc(MS0); axis equal tight xy; colormap gray
+%     figure;
+%     subplot(1,2,1); imagesc(ti); axis equal tight xy; colormap gray
+%     subplot(1,2,2); imagesc(MS0); axis equal tight xy; colormap gray
 end;
 
 
-delete(h)
+% delete(h)
 
 end
